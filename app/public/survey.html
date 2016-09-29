@@ -5,16 +5,13 @@
 	<title>Friend Finder</title>
 	<!-- Latest compiled and minified CSS & JS -->
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
-<!-- 	<link rel="stylesheet" type="text/css" href="./app/public/css/reset.css">
- -->	
  	<link rel="stylesheet" type="text/css" href="public/css/style.css">
 	<link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css">
  	<script src="https://code.jquery.com/jquery.js"></script>
-<!-- 	<script type="text/javascript" src='javascript/script.js'></script>
- -->	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
 </head>
 <body>
-
+<!-- 	set up basic survey container -->
 	<div class="container" id="surveyPlace">
 		<h1>Survey Questions</h1>
 		<hr>
@@ -24,6 +21,7 @@
 		<h3>Link to Photo Image (Required)</h3>
 		<input type="text" id="picture" class="form-control" required>
 		<hr>
+<!-- 		questions dynamically allocated here later -->
 		<div class="container" id="questions"></div>
 		<br>
 		<button type="submit" class="btn btn-primary btn-lg btn-block" id="submit">
@@ -31,47 +29,42 @@
 	 		Submit
 	 	</button>
 		<hr>
+<!-- 		container for modal - not displayed -->
+		<div class="container">
 
-<div class="container">
-<!--   <h2>Modal Example</h2>
- -->  <!-- Trigger the modal with a button -->
-<!--   <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Open Modal</button>
- -->
-  <!-- Modal -->
-  <div class="modal fade" id="myModal" role="dialog">
-    <div class="modal-dialog">
-    
-      <!-- Modal content-->
-      <div class="modal-content">
-        <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal" id="modalClose">&times;</button>
-          <h4 class="modal-title">You are most compatible with:</h4>
-        </div>
-        <div class="modal-body" id="modal-display">
-<!--           <p>Some text in the modal.</p>
- -->        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-default" data-dismiss="modal" id="closeModal">Close</button>
-        </div>
-      </div>
-      
-    </div>
-  </div>
-  
-</div>
+		  <!-- Modal -->
+		  <div class="modal fade" id="myModal" role="dialog">
+		    <div class="modal-dialog">
+		    
+		      <!-- Modal content-->
+		      <div class="modal-content">
+		        <div class="modal-header">
+		          <button type="button" class="close" data-dismiss="modal" id="modalClose">&times;</button>
+		          <h4 class="modal-title">You are most compatible with:</h4>
+			        </div>
+			        <div class="modal-body" id="modal-display">
+			        </div>
+			        <div class="modal-footer" id="pictureFoot">
+		          <button type="button" class="btn btn-default" data-dismiss="modal" id="closeModal">Close</button>
+		        </div>
+		      </div>
+		      
+		    </div>
+		  </div>
+		  
+		</div>
+<!-- 	include friends.js - allocates questions & processes user responses -->
+	<script type="text/javascript" src="data/friends.js"></script>
+	<footer>
+		<div class="container" >
+			<p>
+				<br>
+<!-- 				link to friends database and github -->
+				<a href="/api/friends">API Friends List</a> | 
+				<a href="https://github.com/DaveSpeak/FriendFinder">GitHub Repo</a>
 
-<script type="text/javascript" src="data/friends.js"></script>
-<!-- <script type="text/javascript" src="data/jquery.modal.js"></script>
- -->
-<footer>
-	<div class="container" >
-		<p>
-			<br>
-			<a href="/api/friends">API Friends List</a> | 
-			<a href="https://github.com/DaveSpeak/FriendFinder">GitHub Repo</a>
-
-		</p>
-	</div>
-</footer> 
+			</p>
+		</div>
+	</footer> 
 </body>
 </html>

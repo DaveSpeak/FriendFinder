@@ -1,13 +1,17 @@
 var questions=[
 	"You are always buzzed",
 	"You like to jump up and down",
-	"You love Donald Trump"
-	// "You enjoy jumping out of the window",
-	// "Your favorite band is Metallica",
-	// "You love Hilary Clinton",
-	// "Blue is your favorite color"
+	"You love Donald Trump",
+	"You enjoy jumping out of the window",
+	"Your favorite band is Metallica",
+	"You love Hilary Clinton",
+	"Blue is your favorite color",
+	"You take surveys like this seriously",
+	"You are detail oriented",
+	"You are a big-picture thinker"
 ];
 var answers=[];
+var friendID=-1;
 $(document).ready(function(){
 	populateList();
 });
@@ -28,8 +32,9 @@ function populateList(){
 		//Now assign function to be performed when user clicks on an answer
 		$("#dq"+(j+1)).on("click","li", function(){
 			var number = $(this).attr('value');
-			var quest=parseInt(number.charAt(0));
-			var ans=parseInt(number.charAt(1));
+			// parse button id & assign correct title to button
+			var quest=parseInt(number.substr(0,(number.length-1)));
+			var ans=parseInt(number.substr(number.length-1,number.length-1));
 			// Check if user has resonded with 1 or 5 and update button name accordingly
 			if (ans==1){
 				$('#q'+(quest)).html(ans+' (Strongly Disagree)').append($('<span>').attr({'class':'caret'}));
@@ -56,38 +61,56 @@ function populateList(){
 		//alert the user that input is incomplete.
 		if (uname==='' || upic==='' || unotdone){
 			alert('Please answer all the questions!');
+		// user has answered all questions, assign variable
 		}else {
 			var newFriend = {
 				name:uname,
 				picture:upic,
 				answers:answers
 			}
+			// Query api/friends to get current friends data
 			var currentURL=window.location.origin;
 			$.ajax({url:currentURL+"/api/friends", method:"GET"})
 			.done(function(friendsdata){
+				// set placeholders for most compatible name and score
+				// score cannot be greater than questions.length *4 (5-1), so set max score higher than that
 				var mostCompatible='';
-				var score=1000000;
+				var score=4*questions.length+1;
+				// loop thru friends database
 				for (var j=0;j<friendsdata.length;j++){
+					// set score for this friend = 0
 					var testscore=0;
-					console.log(newFriend.name,friendsdata[j].name);
+					// if new friend's name already exists in the database, alert user
+					// and allow them to enter new data - don't clear form
 					if (newFriend.name===friendsdata[j].name){
 						console.log('Duplicates');
 						duplicateFriend(newFriend.name);
 						return true;
 					}
+					// Loop thru answers of jth friend sum absolute value of differences
 					for (var i=0;i<friendsdata[j].answers.length;i++){
 						testscore+=Math.abs(friendsdata[j].answers[i]-newFriend.answers[i]);
 					console.log(friendsdata[j].answers[i], newFriend.answers[i],testscore);
 					}
+					// test if this friends score is lower than the lowest score, if so 
+					// replace the lowest score and remember id, score name
 					if (testscore<score){
+						friendID=j;
 						score=testscore;
 						mostCompatible=friendsdata[j].name;
 					}
 				}
+				// set up modal
+				// empty modal display, assign header, compatible friends name and picture
 				$('#modal-display').empty();
+				$('.modal-title').html('You are most compatible with:');
 				$('#modal-display').append($('<p>').html(mostCompatible));
+				$('#pictureFoot').prepend($('<img>').attr({'class':'thumbnail','src':friendsdata[friendID].picture}));
+				// post current friend info to api/friends
 				$.post(currentURL+"/api/friends",newFriend);
+				// show modal
 				$('#myModal').modal('show');
+				// reload page to reset dropdown & input windows
 				$('#modalClose').on('click',function(){location.reload();});
 				$('#closeModal').on('click',function(){location.reload();});
 			});
@@ -95,12 +118,13 @@ function populateList(){
 	});
 	return false;
 }
+// prepare modal if there is a duplicate name
 function duplicateFriend(aname){
+	// empty modal display, load with message alerting user that their name is already used
 	$('#modal-display').empty();
 	$('#modal-display').append($('<p>').html('Sorry, '+aname+' is already taken.'));
 	$('.modal-title').empty();
 	$('.modal-title').html('Duplicate Name');
+	// display modal
 	$('#myModal').modal('show');
-	$('#modalClose').on('click',function(){location.reload();});
-	$('#closeModal').on('click',function(){location.reload();});
 }
