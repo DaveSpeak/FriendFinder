@@ -1,0 +1,28 @@
+{
+  "name": "friendfinder",
+  "version": "1.0.0",
+  "description": "friend compatibility matching database",
+  "main": "server.js",
+  "scripts": {
+    "test": "none",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DaveSpeak/FriendFinder.git"
+  },
+  "keywords": [
+    "none"
+  ],
+  "author": "Dave Speaker",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/DaveSpeak/FriendFinder/issues"
+  },
+  "homepage": "https://github.com/DaveSpeak/FriendFinder#readme",
+  "dependencies": {
+    "body-parser": "^1.15.2",
+    "express": "^4.14.0",
+    "path": "^0.12.7"
+  }
+}
